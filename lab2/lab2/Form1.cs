@@ -16,13 +16,13 @@ namespace lab2
         {
             InitializeComponent();
         }
-        static int N = 28;
-        static double[,] px;
-        static double[,,] pxy;
-        static int round = 5;
-        static Random rand = new Random();
-        static int K = 0;
-
+         int N = 28;
+         double[,] px, py;
+         double[,,] pxy, s_pxy;
+         int round = 5;
+         Random rand = new Random();
+         int K = 0;
+       // bool changed = false;
         public void Output_pxy(int k)
         {
             richTextBox2.Clear();
@@ -37,7 +37,7 @@ namespace lab2
                     s += pxy[k, i, j];
                 }
                 richTextBox2.AppendText("\n");
-                richTextBox3.AppendText("s[" + (i + 1).ToString() + "] = " + s.ToString() + "\n");
+                richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + s.ToString() + "\n");
             }
             richTextBox3.AppendText("\n");
             for (int i = 0; i < N; i++)
@@ -51,13 +51,27 @@ namespace lab2
         {
             richTextBox3.Clear();
             richTextBox1.Clear();
+            richTextBox1.AppendText("px : \n");
             double s = 0;
             for (int i = 0; i < N; i++)
             {
-                richTextBox1.AppendText("px[" + (i + 1).ToString() + "] = " + Math.Round(px[k, i], round).ToString() + "\n");
+                richTextBox1.AppendText("px[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(px[k, i], round).ToString() + "\n");
                 s += px[k, i];
             }
+            richTextBox1.AppendText("\n");
             richTextBox3.AppendText("p(x): \n" + "s = " + s.ToString() + "\n\n");
+        }
+
+        public void Output_py(int k)
+        {
+            richTextBox1.AppendText("py : \n");
+            double s = 0;
+            for (int i = 0; i < N; i++)
+            {
+                richTextBox1.AppendText("py[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(py[k, i], round).ToString() + "\n");
+                s += px[k, i];
+            }
+            richTextBox3.AppendText("p(y): \n" + "s = " + s.ToString() + "\n\n");
         }
 
         public void Calc_pxy(int kv)
@@ -131,20 +145,40 @@ namespace lab2
             }
         }
 
+        public void Calc_py(int kv)
+        {
+            py = new double[kv, N];
+            for (int k = 0; k < kv; k++)
+            {
+                for (int i = 0; i < N; i++) py[k, i] = 0;
+                for (int j = 0; j < N; j++)
+                {
+                    for (int i = 0; i < N; i++)
+                    {
+                        py[k, j] += px[k, i] * pxy[k, i, j];
+                    }
+                }
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            numericUpDown2.Maximum = numericUpDown1.Value;
+            numericUpDown2.Value = 1;
             K = Convert.ToInt32(numericUpDown1.Value);
             int k = Convert.ToInt32(numericUpDown2.Value) - 1;
             Calc_px(K);
             Calc_pxy(K);
+            Calc_py(K);
             Output_px(k);
+            Output_py(k);
             Output_pxy(k);
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            numericUpDown2.Maximum = numericUpDown1.Value;
+           // numericUpDown2.Maximum = numericUpDown1.Value;
+
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
@@ -152,6 +186,7 @@ namespace lab2
             int k = Convert.ToInt32(numericUpDown2.Value) - 1;
             Output_px(k);
             Output_pxy(k);
+            Output_py(k);
         }
     }
 }
