@@ -22,6 +22,30 @@ namespace lab2
         static int round = 5;
         static Random rand = new Random();
 
+        public void Output_pxy()
+        {
+            double s = 0;
+            richTextBox3.AppendText("p(x/y):\n");
+            for (int i = 0; i < N; i++)
+            {
+                s = 0;
+                for (int j = 0; j < N; j++)
+                {
+                    richTextBox2.AppendText(String.Format("{0:f17} ", pxy[i, j]));
+                    s += pxy[i, j];
+                }
+                richTextBox2.AppendText("\n");
+                richTextBox3.AppendText("s[" + (i + 1).ToString() + "] = " + s.ToString() + "\n");
+            }
+            richTextBox3.AppendText("\n");
+            for (int i = 0; i < N; i++)
+            {
+                richTextBox2.Find(String.Format("{0:f17} ", pxy[i, i]));
+                richTextBox2.SelectionColor = Color.Red;
+            }
+        }
+
+
         public void Calc_pxy()
         {
             pxy = new double[N, N];
@@ -39,25 +63,7 @@ namespace lab2
                     }
                 }
             }
-            double s = 0;
-            for (int i = 0; i < N; i++)
-            {
-                s = 0;
-                for (int j = 0; j < N; j++)
-                {
-                    richTextBox2.AppendText(String.Format("{0:f17} ", pxy[i, j]));
-                    s += pxy[i, j];
-                }
-                richTextBox2.AppendText("\n");
-                richTextBox1.AppendText("s[" + (i + 1).ToString() + "] = " + s.ToString() + "\n");
-            }
-            
-            for (int i = 0; i < N; i++)
-            {
-                richTextBox2.Find(String.Format("{0:f17} ", pxy[i, i]));
-                richTextBox2.SelectionColor = Color.Red;
-            }
-            
+   
         }
 
         public void Calc_px()
@@ -108,7 +114,7 @@ namespace lab2
             {
                 richTextBox1.AppendText("px[" + (i + 1).ToString() + "] = " + Math.Round(px[i], round).ToString() + "\n");
             }
-            richTextBox1.AppendText("s = " + s.ToString() + "\n");
+            richTextBox3.AppendText("p(x): \n" + "s = " + s.ToString() + "\n\n");
         }
 
 
@@ -116,6 +122,7 @@ namespace lab2
         {
             Calc_px();
             Calc_pxy();
+            Output_pxy();
         }
     }
 }
