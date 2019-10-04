@@ -18,8 +18,48 @@ namespace lab2
         }
         static int N = 28;
         static double[] px;
+        static double[,] pxy;
         static int round = 5;
         static Random rand = new Random();
+
+        public void Calc_pxy()
+        {
+            pxy = new double[N, N];
+            
+            for (int h = 0; h < N; h++) pxy[h, h] = 0.7 + 0.3 * rand.NextDouble(); 
+            for (int i = 0; i < N; i++)
+            {
+                double b = 1 - pxy[i, i];
+                for (int j = 0; j < N; j++)
+                {
+                    if (i != j)
+                    {
+                        pxy[i, j] = b * rand.NextDouble();
+                        b -= pxy[i, j];
+                    }
+                }
+            }
+            double s = 0;
+            for (int i = 0; i < N; i++)
+            {
+                s = 0;
+                for (int j = 0; j < N; j++)
+                {
+                    richTextBox2.AppendText(String.Format("{0:f17} ", pxy[i, j]));
+                    s += pxy[i, j];
+                }
+                richTextBox2.AppendText("\n");
+                richTextBox1.AppendText("s[" + (i + 1).ToString() + "] = " + s.ToString() + "\n");
+            }
+            
+            for (int i = 0; i < N; i++)
+            {
+                richTextBox2.Find(String.Format("{0:f17} ", pxy[i, i]));
+                richTextBox2.SelectionColor = Color.Red;
+            }
+            
+        }
+
         public void Calc_px()
         {
             //  N = Convert.ToInt32(numericUpDown1.Value);
@@ -32,6 +72,7 @@ namespace lab2
             // {
             // richTextBox1.AppendText("Эксперимент: " + k.ToString() + "\n");
             px = new double[N];
+            
             double b = 0;
             double s = 0;
             int offset = 0;
@@ -74,6 +115,7 @@ namespace lab2
         private void button1_Click(object sender, EventArgs e)
         {
             Calc_px();
+            Calc_pxy();
         }
     }
 }
