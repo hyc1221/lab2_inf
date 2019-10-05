@@ -1,5 +1,6 @@
 ﻿//хачу питсЫ
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +17,9 @@ namespace lab2
         public Form1()
         {
             InitializeComponent();
+           
         }
+         
          int N = 28;
          double[,] px, py;
          double[] hx, hxy, ixy;
@@ -25,7 +28,8 @@ namespace lab2
          int round = 5;
          Random rand = new Random();
          int K = 0;
-       // bool changed = false;
+         bool changed = false;
+
         public void Output_pxy(int k, bool bb)
         {
             if (bb) richTextBox2.Clear();
@@ -40,7 +44,7 @@ namespace lab2
                     s += pxy[k, i, j];
                 }
                 if (bb) richTextBox2.AppendText("\n");
-                richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + s.ToString() + "\n");
+                richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(s, round).ToString() + "\n");
             }
             richTextBox3.AppendText("\n");
             if (bb)
@@ -65,7 +69,7 @@ namespace lab2
                     s += s_pxy[k, i, j];
                 }
                 if (bb) richTextBox4.AppendText("\n");
-                richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + s.ToString() + "\n");
+                richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(s, round).ToString() + "\n");
             }
             richTextBox3.AppendText("\n");
             if (bb)
@@ -88,7 +92,7 @@ namespace lab2
                 s += px[k, i];
             }
             richTextBox1.AppendText("\n");
-            richTextBox3.AppendText("p(x): \n" + "s = " + s.ToString() + "\n\n");
+            richTextBox3.AppendText("p(x): \n" + "s = " + Math.Round(s, round).ToString() + "\n\n");
         }
 
         public void Output_py(int k)
@@ -100,7 +104,7 @@ namespace lab2
                 richTextBox1.AppendText("py[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(py[k, i], round).ToString() + "\n");
                 s += px[k, i];
             }
-            richTextBox3.AppendText("p(y): \n" + "s = " + s.ToString() + "\n\n");
+            richTextBox3.AppendText("p(y): \n" + "s = " + Math.Round(s, round).ToString() + "\n\n");
         }
 
         public void Output_rez(int kv)
@@ -207,13 +211,17 @@ namespace lab2
 
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
         {
-            round = Convert.ToInt32(numericUpDown3.Value);
-            int k = Convert.ToInt32(numericUpDown2.Value) - 1;
-            Output_rez(K);
-            Output_px(k);
-            Output_py(k);
-            Output_pxy(k, false);
-            Output_s_pxy(k, false);
+            if (changed)
+            {
+                round = Convert.ToInt32(numericUpDown3.Value);
+                int k = Convert.ToInt32(numericUpDown2.Value) - 1;
+                label9.Text = "H(x)max = " + Math.Round(Math.Log(N, 2), round).ToString();
+                Output_rez(K);
+                Output_px(k);
+                Output_py(k);
+                Output_pxy(k, false);
+                Output_s_pxy(k, false);
+            }
         }
 
         public void Calc_Hx(int kv)
@@ -259,11 +267,14 @@ namespace lab2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             numericUpDown2.Maximum = numericUpDown1.Value;
             numericUpDown2.Value = 1;
             K = Convert.ToInt32(numericUpDown1.Value);
             int k = Convert.ToInt32(numericUpDown2.Value) - 1;
             round = Convert.ToInt32(numericUpDown3.Value);
+            N = Convert.ToInt32(numericUpDown4.Value);
+            label9.Text = "H(x)max = " + Math.Round(Math.Log(N, 2), round).ToString();
             Calc_px(K);
             Calc_pxy(K);
             Calc_py(K);
@@ -276,6 +287,7 @@ namespace lab2
             Output_py(k);
             Output_pxy(k, true);
             Output_s_pxy(k, true);
+            changed = true;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -286,11 +298,15 @@ namespace lab2
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
-            int k = Convert.ToInt32(numericUpDown2.Value) - 1;
-            Output_px(k);
-            Output_py(k);
-            Output_pxy(k, true);
-            Output_s_pxy(k, true);
+            if (changed)
+            {
+                int k = Convert.ToInt32(numericUpDown2.Value) - 1;
+                label9.Text = "H(x)max = " + Math.Round(Math.Log(N, 2), round).ToString();
+                Output_px(k);
+                Output_py(k);
+                Output_pxy(k, true);
+                Output_s_pxy(k, true);
+            }
         }
     }
 }
