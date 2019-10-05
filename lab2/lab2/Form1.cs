@@ -59,7 +59,7 @@ namespace lab2
         {
             if (bb) richTextBox4.Clear();
             double s = 0;
-            richTextBox3.AppendText("s_p(x/y):\n");
+           // richTextBox3.AppendText("s_p(x/y):\n");
             for (int i = 0; i < N; i++)
             {
                 s = 0;
@@ -69,7 +69,7 @@ namespace lab2
                     s += s_pxy[k, i, j];
                 }
                 if (bb) richTextBox4.AppendText("\n");
-                richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(s, round).ToString() + "\n");
+              //  richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(s, round).ToString() + "\n");
             }
             richTextBox3.AppendText("\n");
             if (bb)
