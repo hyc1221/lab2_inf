@@ -62,16 +62,17 @@ namespace lab2
            // richTextBox3.AppendText("s_p(x/y):\n");
             for (int i = 0; i < N; i++)
             {
-                s = 0;
+                //s = 0;
                 for (int j = 0; j < N; j++)
                 {
                    if (bb) richTextBox4.AppendText(String.Format("{0:f17} ", s_pxy[k, i, j]));
-                    s += s_pxy[k, i, j];
+                 //  if (i == j) s += s_pxy[k, i, j];
                 }
                 if (bb) richTextBox4.AppendText("\n");
               //  richTextBox3.AppendText("s[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(s, round).ToString() + "\n");
             }
             richTextBox3.AppendText("\n");
+            //richTextBox3.AppendText("s = " + Math.Round(s, round).ToString() + "\n");
             if (bb)
             for (int i = 0; i < N; i++)
             {
@@ -102,7 +103,7 @@ namespace lab2
             for (int i = 0; i < N; i++)
             {
                 richTextBox1.AppendText("py[" + String.Format("{0:d2}", i + 1) + "] = " + Math.Round(py[k, i], round).ToString() + "\n");
-                s += px[k, i];
+                s += py[k, i];
             }
             richTextBox3.AppendText("p(y): \n" + "s = " + Math.Round(s, round).ToString() + "\n\n");
         }
